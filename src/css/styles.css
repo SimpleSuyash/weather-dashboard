@@ -1,0 +1,32 @@
+:root{
+    --custom-bg1 :  linear-gradient(90deg, rgba(77,131,208,1) 0%, rgba(9,9,121,1) 35%, rgba(3,1,43,1) 100%, rgba(0,212,255,1) 100%);     
+    /* https://cssgradient.io/ */
+}
+body{
+    font-family: 'Open Sans', sans-serif;
+}
+
+.custom-header{
+    font-family:'Kalnia', serif;
+}
+.custom-bg-blue{
+    background-image: var(--custom-bg1);
+}
+
+.forecast-card{
+    background-image:linear-gradient( rgb(45, 66, 99)10%,rgb(29, 43, 65)100%);
+    color:white;
+    padding-right: 5rem;
+
+}
+.flex-container{
+    display: flex;
+    flex-direction: column;
+    gap:1rem;
+}
+.custom-btn{
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.7);
+    background-color: #bab9b9;
+}
