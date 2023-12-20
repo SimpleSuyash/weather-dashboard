@@ -23,7 +23,8 @@
         <div class="row">
             <aside class="flex-container col-6 col-lg-4 col-xl-3">
                 <h2 class="fw-bold">Search for a City:</h2>
-                <input type="text" name="search" id="search-input" class=" form-control p-3 fs-5 text-black-50" placeholder="Sydney">
+                <div id ='error' class="text-warning" hidden></div>
+                <input type="text" name="search" id="search-input" class=" form-control p-3 fs-5 text-black-50" placeholder="Enter a City">
                 <button id="search-btn" type="button" class="btn custom-bg-blue btn-lg text-white">Search</button>
                 <div id="cities" class="flex-container border-top border-secondary py-3">
                     <button type="button" class="btn custom-btn">Sydney</button>
@@ -32,7 +33,7 @@
             </aside>
             <main class=" col-6 col-lg-8 col-xl-9 d-flex flex-column">
                 <div id="current-weather" class="border border-secondary border-2 p-2 fs-4 mb-4">
-                    <h2 class="fw-bold">Sydney 19/12/2023<i></i></h2>
+                    
                     <p>Temp: 76.62</p>
                     <p>Wind: 8.43 MPH</p>
                     <p>Humidity: 44%</p>
@@ -80,23 +81,22 @@
                 </div>
             </main>
         </div>
-        
-
-
-
     </div>
 
 
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
-        </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.10/dayjs.min.js"
         integrity="sha512-FwNWaxyfy2XlEINoSnZh1JQ5TRRtGow0D6XcmAWmYCRgvqOUTnzCxPc9uF35u5ZEpirk1uhlPVA19tflhvnW1g=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
         </script>
+        
     <!-- <script src="https://cdn.jsdelivr.net/npm/dayjs-plugin-utc@0.1.2/dist/dayjs-plugin-utc.min.js"></script>
     <script src="./Develop/package/plugin/advancedFormat.js"></script> -->
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvYj5hyS9yADWaI8cRE8Fzwx1jG37kAP8&libraries=places&callback=Function.prototype"></script>
+    
+    
     <script src="./src/script/script.js"></script>
 </body>
 </html>
