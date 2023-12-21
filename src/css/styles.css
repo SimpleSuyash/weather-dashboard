@@ -72,10 +72,11 @@ input{
     font-size: 0.8em;
 }
 .forecast-row{
-    display: flex;
-    gap: 1em;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    column-gap: 1rem;
+    row-gap: 1rem;
+    
 }
 .forecast-card{
     color:white;
