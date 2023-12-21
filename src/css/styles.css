@@ -1,32 +1,108 @@
-:root{
-    --custom-bg1 :  linear-gradient(90deg, rgba(77,131,208,1) 0%, rgba(9,9,121,1) 35%, rgba(3,1,43,1) 100%, rgba(0,212,255,1) 100%);     
-    /* https://cssgradient.io/ */
+:root{ 
+    --custom-bg1: rgb(45, 66, 99)10%,rgb(29, 43, 65)100%;
+    --box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    font-size: clamp(1rem, calc(0.7rem + 0.3vw), 1.5rem);
 }
+
 body{
     font-family: 'Open Sans', sans-serif;
+    background-image: url(https://picsum.photos/id/296/3072/2048);
+    background-size: cover;
+    color:#fff;
+    /* font-size: 0.4em; */
 }
+b
 
-.custom-header{
+.container{
+    display:flex;
+    flex-direction: column;
+}
+.box-shadow{
+    box-shadow: var(--box-shadow);
+}
+.header{
     font-family:'Kalnia', serif;
+    padding-block: 0.5em;
+    
+    
 }
-.custom-bg-blue{
-    background-image: var(--custom-bg1);
+button, input{
+    padding-block: 0.7em ;
+    /* font-size: 0.7em; */
+    border-radius: 0.3rem;
+    border: 1px outset black;
+    box-shadow: var(--box-shadow);
+}
+.bg-gradient{
+    background-image:linear-gradient( var(--custom-bg1));
+    color:#fff;
+}
+input{
+    font-size: 0.9em;
+}
+.center-text{
+    text-align: center;
 }
 
-.forecast-card{
-    background-image:linear-gradient( rgb(45, 66, 99)10%,rgb(29, 43, 65)100%);
-    color:white;
-    padding-right: 5rem;
 
+.content-wrapper{
+    display: grid;
+    column-gap: 2rem;
+    /* font-size: 1.2em; */
+    grid-template-columns: 1fr 4fr;
+    margin-block: 1rem;
 }
-.flex-container{
+.search-container{
+    min-width: 20rem;
     display: flex;
     flex-direction: column;
-    gap:1rem;
+    row-gap: 1rem;
 }
-.custom-btn{
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: rgba(0, 0, 0, 0.7);
-    background-color: #bab9b9;
+.main-container{
+    margin-block: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap:0.5rem;
+}
+
+.cities{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.8em;
+}
+.forecast-row{
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.forecast-card{
+    color:white;
+    padding-left: 1rem;
+    padding-right: 3.5rem;
+    padding-bottom: 2rem ;
+    box-shadow: var(--box-shadow);
+    background-color: rgba(255, 255, 255, 0.6);
+    color:black;
+    text-shadow: 0px 0px 0.5px #090909;
+}
+
+.current-weather{
+    border:1px solid black;
+    padding-inline: 1rem;
+    padding-block: 0..5rem;
+}
+@media(max-width:630px){
+    .content-wrapper{
+        grid-template-columns: 1fr;
+    }
+
+}
+@media (min-width: 1400px){
+ .content-wrapper{
+    max-width: 1690px;
+    margin: auto;
+ }
+
 }
