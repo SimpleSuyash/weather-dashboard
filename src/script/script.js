@@ -5,7 +5,7 @@ dayjs.extend(window.dayjs_plugin_utc);
     const searchErrorMsgEl = document.getElementById("error");
     const searchBtnEl= document.getElementById('search-btn');
     const searchInputEl = document.getElementById('search-input');
-    const currentWeatherEl = document.getElementById('current-weather');
+    const weatherContainerEl = document.getElementById("weather-container");
     const citiesEl = document.getElementById('cities');
     const forecastEl = document.getElementById('forecast-row');
     let coordinates;
@@ -30,20 +30,28 @@ dayjs.extend(window.dayjs_plugin_utc);
     });
 
     function showCurrentWeather(data){
+        
+        const dateNow = dayjs.unix(data.dt).format("(DD/MM/YYYY)");
         const city = data.name;
-        const date = dayjs.unix(data.dt).format("ddd, Do [of] MMM, YYYY h:ma");
-        // const date = dayjs.unix(data.dt).format("ddd, Do [of] MMM, YYYY h:ma");
-        currentWeatherEl.innerHTML =`<h2 class="fw-bold">${city}</h2> ${date}<i></i>`;
+        const temp = data.main.temp;
+        const humidity = data.main.humidity;
+        const windSpeed = data.wind.speed;
+        const windDeg = data.wind.deg;
+        const weatherIcon = data.weather[0].icon;
+        const currentWeatherEl = document.createElement("div");
+        currentWeatherEl.className = "current-weather box-shadow";
+        currentWeatherEl.innerHTML= `
+            <h2> ${city} ${dateNow} <img src=https://openweathermap.org/img/wn/${weatherIcon}@2x.png></h2> 
+            <p>Temp: ${temp}&degC</p>
+            <p>Wind: ${windSpeed}KMH</p>
+            <p>Humidity: ${humidity}%</p>
+        `;
+        weatherContainerEl.append(currentWeatherEl);
     }
 
-                 // <h2 class="fw-bold">Sydney 19/12/2023<i></i></h2>
-                //     <p>Temp: 76.62</p>
-                //     <p>Wind: 8.43 MPH</p>
-                //     <p>Humidity: 44%</p>
-
-    function getCityWeather(){
-        // const url= "http://api.openweathermap.org/geo/1.0/direct?";
-        const url= "https://api.openweathermap.org/data/2.5/forecast?";
+    function fetchCurrentWeather(){
+        const url= "https://api.openweathermap.org/data/2.5/weather?";
+        // const url= "https://api.openweathermap.org/data/2.5/forecast?";
         const key = "5be9f109a7d5fab8bbaf3f512f90f09c";
         if(coordinates){
             const requestUrl = `${url}lat=${coordinates.lat()}&lon=${coordinates.lng()}&units=metric&appid=${key}`;
@@ -68,7 +76,10 @@ dayjs.extend(window.dayjs_plugin_utc);
             searchInputEl.value="";
         }
     }
-
-    searchBtnEl.addEventListener('click', getCityWeather);
+    function fetchWeather(){
+        fetchCurrentWeather();
+        // fetchForecastWeather();
+    }
+    searchBtnEl.addEventListener('click', fetchWeather);
 
 
