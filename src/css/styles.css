@@ -58,11 +58,12 @@ input{
     flex-direction: column;
     row-gap: 1rem;
 }
-.main-container{
+.weather-container{
     margin-block: 2rem;
     display: flex;
     flex-direction: column;
     gap:0.5rem;
+    letter-spacing: 0.05rem;
 }
 
 .cities{
@@ -94,6 +95,20 @@ input{
     padding-inline: 1rem;
     padding-block: 0..5rem;
 }
+
+.current-weather img{
+    vertical-align: middle;
+    height: 3rem;
+    width:3rem;
+}
+.current-weather p{
+    margin-top: 0px;
+}
+.current-weather h2{
+    margin-bottom: 0;
+}
+
+
 @media(max-width:630px){
     .content-wrapper{
         grid-template-columns: 1fr;
