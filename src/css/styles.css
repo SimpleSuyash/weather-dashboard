@@ -33,6 +33,9 @@ button, input{
     border: 1px outset black;
     box-shadow: var(--box-shadow);
 }
+button{
+    background-color: #ffe4c4;
+}
 .bg-gradient{
     background-image:linear-gradient( var(--custom-bg1));
     color:#fff;
@@ -94,6 +97,7 @@ input{
     border:1px solid black;
     padding-inline: 1rem;
     padding-block: 0..5rem;
+    
 }
 
 .current-weather img{
@@ -107,7 +111,10 @@ input{
 .current-weather h2{
     margin-bottom: 0;
 }
-
+.text-warning{
+    font-style: italic;
+    color: #ff0000;
+}
 
 @media(max-width:630px){
     .content-wrapper{

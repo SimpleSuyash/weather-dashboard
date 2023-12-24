@@ -18,7 +18,7 @@ dayjs.extend(window.dayjs_plugin_utc);
         if (!place.geometry || !place.geometry.location) {
             // User entered the name of a Place that was not suggested and
             // pressed the Enter key, or the Place Details request failed.
-            searchErrorMsgEl.innerHTML =`No city is found for input: <span class="fst-italic text-danger"> ${place.name}</span>`;
+            searchErrorMsgEl.innerHTML =`<p>No city is found for input:  ${place.name}</p>`;
             searchErrorMsgEl.hidden=false;
             setTimeout(() => searchErrorMsgEl.hidden=true, 3000);
             searchInputEl.value="";
@@ -29,6 +29,43 @@ dayjs.extend(window.dayjs_plugin_utc);
             }
     });
 
+    // function showForecastWeather(data){
+        
+    //     const forecastDate = dayjs.unix(data.dt).format("(DD/MM/YYYY)");
+    //     const temp = data.main.temp;
+    //     const humidity = data.main.humidity;
+    //     const windSpeed = data.wind.speed;
+    //     const windDeg = data.wind.deg;
+    //     const weatherIcon = data.weather[0].icon;
+    //     const currentWeatherEl = document.createElement("div");
+    //     currentWeatherEl.className = "current-weather box-shadow";
+    //     currentWeatherEl.innerHTML= `
+    //         <h2> ${city} ${dateNow} <img src=https://openweathermap.org/img/wn/${weatherIcon}@2x.png></h2> 
+    //         <p>Temp: ${temp}&degC</p>
+    //         <p>Wind: ${windSpeed}KMH</p>
+    //         <p>Humidity: ${humidity}%</p>
+    //     `;
+    //     weatherContainerEl.append(currentWeatherEl);
+    // }
+    function fetchForecastWeather(){
+        const url= "https://api.openweathermap.org/data/2.5/forecast?";
+        const key = "5be9f109a7d5fab8bbaf3f512f90f09c";
+        
+        const requestUrl = `${url}lat=${coordinates.lat()}&lon=${coordinates.lng()}&units=metric&appid=${key}`;
+        fetch(requestUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+            //showForecastWeather(data);
+            searchInputEl.value ="";
+        })
+        .catch(function (err) {
+            console.log("Something went wrong!", err);
+        });
+    }
+  
     function showCurrentWeather(data){
         
         const dateNow = dayjs.unix(data.dt).format("(DD/MM/YYYY)");
@@ -43,7 +80,7 @@ dayjs.extend(window.dayjs_plugin_utc);
         currentWeatherEl.innerHTML= `
             <h2> ${city} ${dateNow} <img src=https://openweathermap.org/img/wn/${weatherIcon}@2x.png></h2> 
             <p>Temp: ${temp}&degC</p>
-            <p>Wind: ${windSpeed}KMH</p>
+            <p>Wind: ${windSpeed}KMH <i class="fa-solid fa-arrow-up" style="rotate: ${windDeg}deg" ></i></p>
             <p>Humidity: ${humidity}%</p>
         `;
         weatherContainerEl.append(currentWeatherEl);
@@ -51,11 +88,9 @@ dayjs.extend(window.dayjs_plugin_utc);
 
     function fetchCurrentWeather(){
         const url= "https://api.openweathermap.org/data/2.5/weather?";
-        // const url= "https://api.openweathermap.org/data/2.5/forecast?";
         const key = "5be9f109a7d5fab8bbaf3f512f90f09c";
         if(coordinates){
             const requestUrl = `${url}lat=${coordinates.lat()}&lon=${coordinates.lng()}&units=metric&appid=${key}`;
-            // const requestUrl = `${url}q=Kathmandu&units=metric&appid=${key}`;
             fetch(requestUrl)
             .then(function (response) {
                 return response.json();
@@ -70,7 +105,7 @@ dayjs.extend(window.dayjs_plugin_utc);
             });
         }else{
             //when user typed a city and that didn't show in google autocomplet but user still pressed search button
-            searchErrorMsgEl.innerHTML =`No city is found for input: <span class="fst-italic text-danger"> ${searchInputEl.value}</span>`;
+            searchErrorMsgEl.innerHTML =`<p> No city is found for input:  ${searchInputEl.value}</p>`;
             searchErrorMsgEl.hidden=false;
             setTimeout(() => searchErrorMsgEl.hidden=true, 3000);
             searchInputEl.value="";
@@ -78,7 +113,7 @@ dayjs.extend(window.dayjs_plugin_utc);
     }
     function fetchWeather(){
         fetchCurrentWeather();
-        // fetchForecastWeather();
+        fetchForecastWeather();
     }
     searchBtnEl.addEventListener('click', fetchWeather);
 
