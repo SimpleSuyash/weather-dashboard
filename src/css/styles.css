@@ -1,7 +1,7 @@
 :root{ 
     --custom-bg: rgb(94, 149, 239)10%,rgb(12, 17, 27)100%;
     --box-shadow-dark: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    --box-shadow-light: 0 4px 8px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(255, 255, 255, 0.2);
+    /* --box-shadow-light: 0 4px 8px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(255, 255, 255, 0.2); */
     font-size: clamp(1rem, calc(0.7rem + 0.3vw), 1.5rem);
 }
 
@@ -81,19 +81,19 @@ input{
     row-gap: 1rem;
 }
 .forecast-card{
-    color:white;
+    color:black;
     padding-left: 1rem;
     padding-bottom: 1rem;
-    box-shadow: var(--box-shadow-light);
-    background-color: rgba(0,0,0, 0.2) ;
+    box-shadow: var(--box-shadow-dark);
     text-shadow: 0px 0px 0.5px #090909;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .current-weather{
     border:1px solid black;
     padding-inline: 1rem;
     padding-block: 0..5rem;
-    box-shadow: var(--box-shadow-light);
+    box-shadow: var(--box-shadow-dark);
 }
 
 .current-weather img{
