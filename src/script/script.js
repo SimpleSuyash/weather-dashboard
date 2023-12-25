@@ -259,7 +259,7 @@ function saveSearchedCity(){
     const place = autocomplete.getPlace();
     savePlace(place);
     // console.log(place);
-    coordinates = null;
+    coordinates = {};
 }
 searchBtnEl.addEventListener("click", fetchWeather);
 searchBtnEl.addEventListener("click", saveSearchedCity);

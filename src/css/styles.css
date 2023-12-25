@@ -10,7 +10,6 @@ body{
     background-image: url(https://picsum.photos/id/296/3072/2048);
     background-size: cover;
     color:#fff;
-    /* font-size: 0.4em; */
 }
 
 
@@ -40,7 +39,8 @@ button{
     color:#fff;
 }
 input{
-    font-size: 0.9em;
+    font-size: 1.1em;
+    height: 2rem;
 }
 .center-text{
     text-align: center;
