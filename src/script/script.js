@@ -60,7 +60,8 @@ dayjs.extend(window.dayjs_plugin_utc);
             const forecastDateString = getFormattedDateString(forecastDate);
             const temp = forecastDay.main.temp;
             const humidity = forecastDay.main.humidity;
-            const windSpeed = forecastDay.wind.speed;
+            const windSpeed = forecastDay.wind.speed;//unit is m/sec
+            const formattedWindSpeed = (windSpeed*3600/1000).toFixed(2);//unit km/h
             const windDeg = forecastDay.wind.deg;
             const weatherIcon = forecastDay.weather[0].icon;
 
@@ -68,9 +69,9 @@ dayjs.extend(window.dayjs_plugin_utc);
             forecastCardEl.className = "forecast-card";
             forecastCardEl.innerHTML= `
                 <h3>${forecastDateString}</h3>
-                <img src= "https://openweathermap.org/img/wn/${weatherIcon}@2x.png">
+                <img src= "https://openweathermap.org/img/wn/${weatherIcon}@2x.png" alt="weather icon">
                 <p>Temp: ${temp}&degC</p>
-                <p>Wind: Wind: ${windSpeed}KMH <i class="fa-solid fa-arrow-up" style="rotate: ${windDeg}deg" ></i></p>
+                <p>Wind: Wind: ${formattedWindSpeed}KMH <i class="fa-solid fa-arrow-up" style="rotate: ${windDeg}deg" ></i></p>
                 <p>Humidity: ${humidity}%</p>
             `;
             forecastRowEl.append(forecastCardEl);
@@ -110,14 +111,15 @@ dayjs.extend(window.dayjs_plugin_utc);
         const temp = data.main.temp;
         const humidity = data.main.humidity;
         const windSpeed = data.wind.speed;
+        const formattedWindSpeed = (windSpeed*3600/1000).toFixed(2);
         const windDeg = data.wind.deg;
         const weatherIcon = data.weather[0].icon;
         const currentWeatherEl = document.createElement("div");
         currentWeatherEl.className = "current-weather";
         currentWeatherEl.innerHTML= `
-            <h2> ${city} (${newDateString}) <img src= "https://openweathermap.org/img/wn/${weatherIcon}@2x.png"></h2> 
+            <h2> ${city} (${newDateString}) <img src= "https://openweathermap.org/img/wn/${weatherIcon}@2x.png" alt="weather icon"></h2> 
             <p>Temp: ${temp}&degC</p>
-            <p>Wind: ${windSpeed}KMH <i class="fa-solid fa-arrow-up" style="rotate: ${windDeg}deg" ></i></p>
+            <p>Wind: ${formattedWindSpeed}KMH <i class="fa-solid fa-arrow-up" style="rotate: ${windDeg}deg" ></i></p>
             <p>Humidity: ${humidity}%</p>
         `;
         weatherContainerEl.innerHTML ="";
