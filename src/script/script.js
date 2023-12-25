@@ -17,8 +17,6 @@ const options = {fields:["name", "geometry"] };
 let autocomplete = new google.maps.places.Autocomplete(searchInputEl, options);
 autocomplete.addListener("place_changed", () => {
     const place = autocomplete.getPlace();
-    // place.setFields("name", "geometry");
-    // console.log(place.geometry.location.lat());
     if (!place.geometry || !place.geometry.location) {
         // User entered the name of a Place that was not suggested and
         // pressed the Enter key, or the Place Details request failed.
@@ -32,29 +30,21 @@ autocomplete.addListener("place_changed", () => {
         const lat =  place.geometry.location.lat();
         const lng =  place.geometry.location.lng();
         coordinates = {lat, lng};
-        // console.log(place);
-        // console.log(coordinates);
     }
 });
 function clickCity(theEvent){
     let aPlace;
     const cityName = theEvent.target.innerText;
-    // alert(cityName);
     const places = getPlacesFromStorage();
     places.forEach(place =>{
-        // alert(place.name);
         if( place.name == cityName){
              aPlace = place;
-            // console.log(aPlace);
         }
     });
-    // console.log(aPlace.className);
-    // console.log("place from click city " + aPlace);
 
     coordinates = aPlace.geometry.location;
-    // console.log(aPlace);
-    // console.log(coordinates);
     fetchWeather();
+    coordinates = null;
 
 }
 
@@ -62,12 +52,10 @@ function clickCity(theEvent){
 function renderCities(places) {
     citiesEl.innerHTML ="";
     places.forEach(place => {
-        // console.log(place);//wrong format
         if (places) {
             const city = place.name;
             cityButton = document.createElement("button");
             cityButton.innerText = city;
-            // citiesEl.append(cityButton);
             citiesEl.insertAdjacentElement("afterbegin", cityButton);
         }
     });
@@ -80,10 +68,10 @@ function getPlacesFromStorage(){
     }else{
         places = [];
     }
-    // console.log("--------------------------------after parsing");
-    // places.forEach(place =>{
-    //     console.log(place);
-    // });
+    console.log("--------------------------------after parsing");
+    places.forEach(place =>{
+        console.log(place);
+    });
     
     return places;
 }
@@ -96,7 +84,6 @@ function savePlacesToStorage(places){
     localStorage.setItem("places", JSON.stringify(places));
 }
 function savePlace(place) {
-    // console.log(place);
     let places = getPlacesFromStorage();
     if (places.length=== 0){
         places.push(place);
@@ -108,7 +95,6 @@ function savePlace(place) {
                 places.push(place);
                 placeExistAlready = true;
             } else {
-                // return;
             }
         });
         if(!placeExistAlready){
@@ -219,14 +205,11 @@ function showCurrentWeather(data) {
 }
 
 function fetchCurrentWeather() {
-    // alert("hi");
     const url = "https://api.openweathermap.org/data/2.5/weather?";
     const key = "5be9f109a7d5fab8bbaf3f512f90f09c";
  
     if (coordinates) {
-        // alert("hhello");
         const requestUrl = `${url}lat=${coordinates.lat}&lon=${coordinates.lng}&units=metric&appid=${key}`;
-        // alert("hi2");
         fetch(requestUrl)
             .then(function (response) {
                 return response.json();
@@ -234,9 +217,7 @@ function fetchCurrentWeather() {
             .then(function (data) {
                 console.log(data);
                 showCurrentWeather(data);
-                // alert("saving");
                 searchInputEl.value = "";
-                // alert("hi from inside current weather function");
             })
             .catch(function (err) {
                 console.log("Something went wrong!", err);
@@ -257,9 +238,14 @@ function fetchWeather() {
 
 function saveSearchedCity(){
     const place = autocomplete.getPlace();
-    savePlace(place);
-    // console.log(place);
-    coordinates = {};
+    if (!place.geometry || !place.geometry.location) {
+        return
+    }else{
+        savePlace(place);
+        coordinates = null;
+    }
+    
+
 }
 searchBtnEl.addEventListener("click", fetchWeather);
 searchBtnEl.addEventListener("click", saveSearchedCity);
