@@ -12,7 +12,7 @@ body{
     color:#fff;
     /* font-size: 0.4em; */
 }
-b
+
 
 .container{
     display:flex;
@@ -22,7 +22,7 @@ b
 .header{
     font-family:'Kalnia', serif;
     padding-block: 0.5em;
-    
+    box-shadow: var(--box-shadow-dark);
     
 }
 button, input{
@@ -94,6 +94,7 @@ input{
     padding-inline: 1rem;
     padding-block: 0..5rem;
     box-shadow: var(--box-shadow-dark);
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .current-weather img{
@@ -126,6 +127,12 @@ input{
 
 }
 @media (min-width: 1400px){
+ .content-wrapper{
+    max-width: 1870px;
+    margin: auto;
+ }
+
+media (min-width: 1400px){
  .content-wrapper{
     max-width: 1690px;
     margin: auto;
