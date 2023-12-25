@@ -101,6 +101,9 @@ function savePlace(place) {
             places.push(place);
         }
     }
+    if(places.length >7){
+        places.shift();
+    }
     savePlacesToStorage(places);
     renderCities(places);
 }
@@ -119,6 +122,7 @@ function getForecastDays(data) {
             return forecastDays;
         }
     });
+    //don't need the first day data
     fiveForecastDays.shift();
     console.log(fiveForecastDays);
     return fiveForecastDays;
@@ -224,7 +228,7 @@ function fetchCurrentWeather() {
             });
     } else {
         //when user typed a city and that didn't show in google autocomplet but user still pressed search button
-        searchErrorMsgEl.innerHTML = `<p> No city is found for input:  ${searchInputEl.value}</p>`;
+        searchErrorMsgEl.innerText = ` No city is found for input:  ${searchInputEl.value}`;
         searchErrorMsgEl.hidden = false;
         setTimeout(() => searchErrorMsgEl.hidden = true, 3000);
         searchInputEl.value = "";
