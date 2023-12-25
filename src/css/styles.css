@@ -1,6 +1,7 @@
 :root{ 
-    --custom-bg1: rgb(45, 66, 99)10%,rgb(29, 43, 65)100%;
-    --box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    --custom-bg: rgb(94, 149, 239)10%,rgb(12, 17, 27)100%;
+    --box-shadow-dark: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    --box-shadow-light: 0 4px 8px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(255, 255, 255, 0.2);
     font-size: clamp(1rem, calc(0.7rem + 0.3vw), 1.5rem);
 }
 
@@ -17,9 +18,7 @@ b
     display:flex;
     flex-direction: column;
 }
-.box-shadow{
-    box-shadow: var(--box-shadow);
-}
+
 .header{
     font-family:'Kalnia', serif;
     padding-block: 0.5em;
@@ -31,13 +30,13 @@ button, input{
     /* font-size: 0.7em; */
     border-radius: 0.3rem;
     border: 1px outset black;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--box-shadow-dark);
 }
 button{
     background-color: #ffe4c4;
 }
 .bg-gradient{
-    background-image:linear-gradient( var(--custom-bg1));
+    background-image:linear-gradient( var(--custom-bg));
     color:#fff;
 }
 input{
@@ -77,19 +76,16 @@ input{
 }
 .forecast-row{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(14.5rem, 1fr));
     column-gap: 1rem;
     row-gap: 1rem;
-    
 }
 .forecast-card{
     color:white;
     padding-left: 1rem;
-    padding-right: 3.5rem;
-    padding-bottom: 2rem ;
-    box-shadow: var(--box-shadow);
-    background-color: rgba(255, 255, 255, 0.6);
-    color:black;
+    padding-bottom: 1rem;
+    box-shadow: var(--box-shadow-light);
+    background-color: rgba(0,0,0, 0.2) ;
     text-shadow: 0px 0px 0.5px #090909;
 }
 
@@ -97,7 +93,7 @@ input{
     border:1px solid black;
     padding-inline: 1rem;
     padding-block: 0..5rem;
-    
+    box-shadow: var(--box-shadow-light);
 }
 
 .current-weather img{
@@ -105,11 +101,18 @@ input{
     height: 3rem;
     width:3rem;
 }
-.current-weather p{
+.forecast-card img{
+    height: 4rem;
+    width:4rem;
+}
+.current-weather p, .forecast-card p{
     margin-top: 0px;
 }
-.current-weather h2{
+.current-weather h2, .forecast-card h3{
     margin-bottom: 0;
+}
+.forecast-card img{
+    margin: 0;
 }
 .text-warning{
     font-style: italic;
