@@ -60,6 +60,7 @@ input{
     flex-direction: column;
     row-gap: 1rem;
 }
+
 .weather-container{
     margin-block: 2rem;
     display: flex;
