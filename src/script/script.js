@@ -1,19 +1,15 @@
-dayjs.extend(window.dayjs_plugin_advancedFormat);
-dayjs.extend(window.dayjs_plugin_utc);
-
-
 const searchErrorMsgEl = document.getElementById("error");
 const searchBtnEl = document.getElementById('search-btn');
 const searchInputEl = document.getElementById('search-input');
 const weatherContainerEl = document.getElementById("weather-container");
 const citiesEl = document.getElementById('cities');
 const forecastEl = document.getElementById('forecast-row');
-let places = [];
 let coordinates;
 
-
-// https://jsfiddle.net/gh/get/library/pure/googlemaps/js-samples/tree/master/dist/samples/places-autocomplete/jsfiddle
+//limiting the place object's properties to name and geometry
+//otherwise the place object has a long list of properties
 const options = {fields:["name", "geometry"] };
+//creating an autocomplete for google map places
 let autocomplete = new google.maps.places.Autocomplete(searchInputEl, options);
 autocomplete.addListener("place_changed", () => {
     const place = autocomplete.getPlace();
@@ -27,28 +23,34 @@ autocomplete.addListener("place_changed", () => {
         return;
     }
     else {
+        //when user selected the place shown in autocomplete
+        //getting lattitude and longititude values
         const lat =  place.geometry.location.lat();
         const lng =  place.geometry.location.lng();
+        //assigning the values to coordinates
         coordinates = {lat, lng};
     }
 });
+
+//handles the event when the list of cities in the search history is clicked
 function clickCity(theEvent){
     let aPlace;
     const cityName = theEvent.target.innerText;
     const places = getPlacesFromStorage();
     places.forEach(place =>{
-        if( place.name == cityName){
+        //when city from the button matches to the localstorage item
+        if( place.name === cityName){
              aPlace = place;
         }
     });
-
+    //getting the location from the saved object
     coordinates = aPlace.geometry.location;
+    //rendering the weather
     fetchWeather();
     coordinates = null;
-
 }
 
-
+//searched cities are rendered to the screen
 function renderCities(places) {
     citiesEl.innerHTML ="";
     places.forEach(place => {
@@ -56,11 +58,15 @@ function renderCities(places) {
             const city = place.name;
             cityButton = document.createElement("button");
             cityButton.innerText = city;
+            //rendering the objects from list as the first child of citiesEl
+            //so the latest serched item shown on top of the list
             citiesEl.insertAdjacentElement("afterbegin", cityButton);
         }
     });
     citiesEl.addEventListener("click", clickCity);
 }
+
+//gets the places from the storage
 function getPlacesFromStorage(){
     let places = localStorage.getItem("places");
     if(places){
@@ -68,53 +74,70 @@ function getPlacesFromStorage(){
     }else{
         places = [];
     }
-    console.log("--------------------------------after parsing");
-    places.forEach(place =>{
-        console.log(place);
-    });
-    
     return places;
 }
+
+//saves the places to the storage
 function savePlacesToStorage(places){
-    console.log("--------------------------------before parsing");
+    console.log ("-----------------saving the following items to storage");
     places.forEach(place =>{
-        
         console.log(place);
     });
     localStorage.setItem("places", JSON.stringify(places));
 }
+
+//handles the searched city saving function
 function savePlace(place) {
     let places = getPlacesFromStorage();
+    let placeExistAlready =false;
+    //when there is nothing in the storage
+    //just add the new city being searched
     if (places.length=== 0){
         places.push(place);
     } else {
-        let placeExistAlready =false;
+        //when there are some cities already saved in the localstorage
         places.forEach(thePlace => {
-            if (place.name == thePlace.name) {
+            if (place.name === thePlace.name) {
+                //when the city being searched is already in the localstorage
+                //just change the order of the item in the list
+                //push the city to the bottom of the list
+                //as it is the recent one
                 places = places.filter(aPlace => aPlace.name != place.name);
                 places.push(place);
                 placeExistAlready = true;
             } else {
+                //do nothing
             }
         });
+        //if the city being searched is not in the storage yet
         if(!placeExistAlready){
             places.push(place);
         }
     }
+    //preventing the list from ever-growing
+    //if the list is getting bigger than 7, delete the earliest item
     if(places.length >7){
         places.shift();
     }
     savePlacesToStorage(places);
     renderCities(places);
 }
+
+//dt from openweathermap is the unix time
+//if you format with dayjs, the time is automatically converted to the user's local time
+//so insteading of formatting it, we just getting the D/M/YYYY part from the utc date of the city
+//so we can display the city's actual current date
 function getFormattedDateString(date) {
     const newDate = new Date(date);
     const newDateString = `${newDate.getUTCDate()}/${newDate.getUTCMonth()}/${newDate.getUTCFullYear()}`;
     return newDateString;
 }
 
+//get unique forecast days out of all the timestamps
+//summerizes 1 data for a day
 function getForecastDays(data) {
     const forecastDays = [];
+    //getting unique days out of the data which has 39 items, an item for every 3 hour
     const fiveForecastDays = data.list.filter(forecast => {
         const forecastDay = dayjs.unix(forecast.dt).format("(DD/MM/YYYY)");
         if (!forecastDays.includes(forecastDay)) {
@@ -124,14 +147,19 @@ function getForecastDays(data) {
     });
     //don't need the first day data
     fiveForecastDays.shift();
+    console.log("----------------Gettng 5 day forecast")
     console.log(fiveForecastDays);
     return fiveForecastDays;
 }
+
+//showing 5 day forecast
 function showForecastWeather(data) {
 
     const fiveForecastDays = getForecastDays(data);
+    //wrapper for 5 day forecast
     const forecastContainerEl = document.createElement("div");
     const heading = "<h2 class='fw-bold'>5-Day Forecast:</h2>";
+    //wrapper for forecast cards
     const forecastRowEl = document.createElement("div");
     forecastRowEl.className = "forecast-row";
 
@@ -161,6 +189,7 @@ function showForecastWeather(data) {
     weatherContainerEl.append(forecastContainerEl);
 }
 
+//fetching 5 day forecast weather
 function fetchForecastWeather() {
     const url = "https://api.openweathermap.org/data/2.5/forecast?";
     const key = "5be9f109a7d5fab8bbaf3f512f90f09c";
@@ -170,6 +199,7 @@ function fetchForecastWeather() {
             return response.json();
         })
         .then(function (data) {
+            console.log("-----------------fetching 5 day forecast data");
             console.log(data);
             showForecastWeather(data);
             searchInputEl.value = "";
@@ -179,14 +209,14 @@ function fetchForecastWeather() {
         });
 }
 
-
-
-
+//showing current weather
 function showCurrentWeather(data) {
 
+    //current utc/gmt time of the city
     const dateNow = dayjs.unix(data.dt + data.timezone);
     // const newDate = dayjs(dateNow).format("(DD/MM/YYYY)");
     // const newDate = `${dayjs(dateNow).get('D')}/${dayjs(dateNow).get('M')}/${dayjs(dateNow).get('y')}`;
+    //shows in D/M/YYYY format
     const newDateString = getFormattedDateString(dateNow);
 
     const city = data.name;
@@ -208,6 +238,7 @@ function showCurrentWeather(data) {
     weatherContainerEl.append(currentWeatherEl);
 }
 
+//fetching current weather
 function fetchCurrentWeather() {
     const url = "https://api.openweathermap.org/data/2.5/weather?";
     const key = "5be9f109a7d5fab8bbaf3f512f90f09c";
@@ -219,6 +250,7 @@ function fetchCurrentWeather() {
                 return response.json();
             })
             .then(function (data) {
+                console.log("-----------------fetching current weather data");
                 console.log(data);
                 showCurrentWeather(data);
                 searchInputEl.value = "";
@@ -235,30 +267,35 @@ function fetchCurrentWeather() {
     }
 }
 
+//fetching current and 5 day forecast weather
 function fetchWeather() {
     fetchCurrentWeather();
     fetchForecastWeather();
 }
 
+//saves the  searched city 
 function saveSearchedCity(){
     const place = autocomplete.getPlace();
     if (!place.geometry || !place.geometry.location) {
         return
     }else{
         savePlace(place);
+        //to prevent from saving places that didn't show in autoplace
         coordinates = null;
     }
     
 
 }
+//attaching event handlers
 searchBtnEl.addEventListener("click", fetchWeather);
 searchBtnEl.addEventListener("click", saveSearchedCity);
 
-
+//when window starts this function runs
 function init(){
     let places = getPlacesFromStorage();
     renderCities(places);
 }
+//calling init function after window initialization
 window.init = init();
 
 
