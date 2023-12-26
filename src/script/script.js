@@ -136,8 +136,12 @@ function getFormattedDateString(date) {
 //get unique forecast days out of all the timestamps
 //summerizes 1 data for a day
 function getForecastDays(data) {
+    const fiveForecastDays = [];
+    /*
     const forecastDays = [];
     //getting unique days out of the data which has 39 items, an item for every 3 hour
+    //this method always extract the first forecast data of the day, which is midnight 12AM
+    //regardless of the current time, forecast data is always of midnight
     const fiveForecastDays = data.list.filter(forecast => {
         const forecastDay = dayjs.unix(forecast.dt).format("(DD/MM/YYYY)");
         if (!forecastDays.includes(forecastDay)) {
@@ -147,6 +151,17 @@ function getForecastDays(data) {
     });
     //don't need the first day data
     fiveForecastDays.shift();
+    */
+
+    //the following algorithm gets data stamps which is same time as of current time for forecast days
+    // data is 3 hours apart
+    //so 3hrs * 8 is 24 hrs
+    //getting every 8 interval data
+   for (let i = 0; i < data.list.length; i++){
+     if (i===7 || i === 15 || i === 23 ||  i === 31 || i === 39 ){
+        fiveForecastDays.push(data.list[i]);
+     }
+   }
     console.log("----------------Gettng 5 day forecast")
     console.log(fiveForecastDays);
     return fiveForecastDays;
