@@ -132,11 +132,4 @@ input{
     max-width: 1870px;
     margin: auto;
  }
-
-media (min-width: 1400px){
- .content-wrapper{
-    max-width: 1690px;
-    margin: auto;
- }
-
 }
