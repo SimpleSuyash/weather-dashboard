@@ -57,6 +57,9 @@ The ***dt*** time you see in data from the OpenWeatherMap is a Unix timestamp ( 
 
 During the process of developing this application, I came to realize that the Localstorage is only used to save data which is safe to convert into string. If you store an object in the storage, during the stringify, the object may lose its state, i.e, the object's functions may not be correctly parsed back. This application saves an object in the Localstorage. But, you may wish to save the object data instead.
 
+## Background Image
+The background image is used from [Picsum](https://picsum.photos/id/296/3072/2048 )
+
 ## Link to the deployed application
 [Link to deployed Weather Dashboard application](https://simplesuyash.github.io/weather-dashboard/)
 
